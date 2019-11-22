@@ -9,31 +9,46 @@ import os
 from torch.utils.data import random_split
 parser = argparse.ArgumentParser()
 
+# Seed
 parser.add_argument('--seed', type=int, default=777,
                     help='seed')
+# Batch size
 parser.add_argument('--batch_size', type=int, default=128,
                     help='batch size')
+# Learning rate
 parser.add_argument('--lr', type=float, default=0.0005,
                     help='learning rate')
+# Weight decay, the paramer for regularization i.e. L2 Regularization
+# Avoid overfitting
 parser.add_argument('--weight_decay', type=float, default=0.0001,
                     help='weight decay')
+# Hidden size
 parser.add_argument('--nhid', type=int, default=128,
                     help='hidden size')
+# Pooling ratio
 parser.add_argument('--pooling_ratio', type=float, default=0.5,
                     help='pooling ratio')
+# Dropout ratio
+# Avoid overfitting
 parser.add_argument('--dropout_ratio', type=float, default=0.5,
                     help='dropout ratio')
+# Path of dataset
 parser.add_argument('--dataset', type=str, default='DD',
                     help='DD/PROTEINS/NCI1/NCI109/Mutagenicity')
+# Number of epochs
 parser.add_argument('--epochs', type=int, default=100000,
                     help='maximum number of epochs')
+# Patience for earlystopping
+# Avoid overfitting
 parser.add_argument('--patience', type=int, default=50,
                     help='patience for earlystopping')
+# Type of pooling layer
 parser.add_argument('--pooling_layer_type', type=str, default='GCNConv',
                     help='DD/PROTEINS/NCI1/NCI109/Mutagenicity')
 
 args = parser.parse_args()
 args.device = 'cpu'
+# Set seed to generate random init for cpu for reproductivity
 torch.manual_seed(args.seed)
 if torch.cuda.is_available():
     torch.cuda.manual_seed(args.seed)
